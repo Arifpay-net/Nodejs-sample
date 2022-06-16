@@ -66,10 +66,10 @@ app.post('/create-checkout-session', async (req, res) => {
     paymentMethods: [],
     successUrl: `${domainURL}/canceled.html`,
     items: [{
-      name: 'Banana',
-      price: 10.0,
+      name: 'Pent House per Night',
+      price: 1500.0,
       quantity: 1,
-      image: "https://4.imimg.com/data4/KK/KK/GLADMIN-/product-8789_bananas_golden-500x500.jpg"
+      image: "https://www.thespruce.com/thmb/0mCrVrlgAOLHm03zxtJxMd8RIwQ=/2048x1365/filters:fill(auto,1)/put-together-a-perfect-guest-room-1976987-hero-223e3e8f697e4b13b62ad4fe898d492d.jpg"
     }, ],
   };
 
