@@ -19,17 +19,7 @@ const arifpay = new Arifpay(process.env.ARIFPAY_KEY)
 
 app.use(express.static("./public"));
 app.use(express.urlencoded());
-app.use(
-  express.json({
-    // We need the raw body to verify webhook signatures.
-    // Let's compute it only when hitting the Stripe webhook endpoint.
-    verify: function (req, res, buf) {
-      if (req.originalUrl.startsWith('/webhook')) {
-        req.rawBody = buf.toString();
-      }
-    },
-  })
-);
+
 
 app.get('/', (req, res) => {
   const path = resolve('./public/index.html');
@@ -83,6 +73,8 @@ app.post('/create-checkout-session', async (req, res) => {
 
 app.post('/api/create-checkout-session', async (req, res) => {
   
+  return res.json({error: false, data: require.body});
+
   const domainURL = process.env.DOMAIN;
 
   const date = new Date();
