@@ -1,6 +1,10 @@
 const {
   getExpireDateFromDate
 } = require('arifpay/lib/helper');
+const {
+  error,
+  log
+} = require('console');
 const express = require('express');
 const app = express();
 const {
@@ -16,6 +20,8 @@ checkEnv();
 
 const Arifpay = require('arifpay').default;
 const arifpay = new Arifpay(process.env.ARIFPAY_KEY)
+const domainURL = process.env.DOMAIN;
+
 
 app.use(express.static("./public"));
 app.use(express.urlencoded());
@@ -38,7 +44,6 @@ app.get('/checkout-session', async (req, res) => {
 
 app.post('/create-checkout-session', async (req, res) => {
 
-  const domainURL = process.env.DOMAIN;
 
   const date = new Date();
   date.setMonth(10);
@@ -54,7 +59,7 @@ app.post('/create-checkout-session', async (req, res) => {
     notifyUrl: `${domainURL}/webhook`,
     expireDate: expired,
     nonce: Math.floor(Math.random() * 10000).toString(),
-    paymentMethods: [],
+    paymentMethods: ["CARD"],
     successUrl: `${domainURL}/canceled.html`,
     items: [{
       name: 'Pent House per Night',
@@ -73,26 +78,40 @@ app.post('/create-checkout-session', async (req, res) => {
 });
 
 app.post('/api/create-checkout-session', async (req, res) => {
-  
-  const date = new Date();
-  date.setMonth(10);
-  const expired = getExpireDateFromDate(date);
-  const data = {
-    ...req.body,
-    beneficiaries: [{
-      accountNumber: 'account number',
-      bank: 'AWINETAA',
-      amount: 10,
-    }, ],
-    expireDate: expired,
-    nonce: Math.floor(Math.random() * 10000).toString(),
-  };
 
-  const session = await arifpay.checkout.create(data, {
-    sandbox: true
-  });
-  console.log(session);
-  return res.json({error: false, data: session});
+  try {
+    const date = new Date();
+    date.setMonth(10);
+    const expired = getExpireDateFromDate(date);
+    const data = {
+      ...req.body,
+      notifyUrl: `${domainURL}/webhook`,
+      beneficiaries: [{
+        accountNumber: 'account number',
+        bank: 'AWINETAA',
+        amount: 10,
+      }, ],
+      paymentMethods: ["CARD"],
+      expireDate: expired,
+      nonce: Math.floor(Math.random() * 10000).toString(),
+    };
+
+    const session = await arifpay.checkout.create(data, {
+      sandbox: true
+    });
+    console.log(session);
+    return res.json({
+      error: false,
+      data: session
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      error: true,
+      msg: err.msg,
+      data: err.error
+    });
+  }
 });
 
 // Webhook handler for asynchronous events.
