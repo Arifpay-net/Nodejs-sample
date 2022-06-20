@@ -82,6 +82,7 @@ app.post('/create-checkout-session', async (req, res) => {
 });
 
 app.post('/api/create-checkout-session', async (req, res) => {
+  
   const domainURL = process.env.DOMAIN;
 
   const date = new Date();
@@ -103,7 +104,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
     sandbox: true
   });
   console.log(session);
-  return res.redirect(303, session.paymentUrl);
+  return res.json({error: false, data: session});
 });
 
 // Webhook handler for asynchronous events.
