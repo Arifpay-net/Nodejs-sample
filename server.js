@@ -19,6 +19,7 @@ const arifpay = new Arifpay(process.env.ARIFPAY_KEY)
 
 app.use(express.static("./public"));
 app.use(express.urlencoded());
+app.use(express.json());
 
 
 app.get('/', (req, res) => {
@@ -73,7 +74,7 @@ app.post('/create-checkout-session', async (req, res) => {
 
 app.post('/api/create-checkout-session', async (req, res) => {
   
-  return res.json({error: false, data: require.body});
+  return res.json({error: false, data: req.body});
 
   const domainURL = process.env.DOMAIN;
 
