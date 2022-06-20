@@ -74,10 +74,6 @@ app.post('/create-checkout-session', async (req, res) => {
 
 app.post('/api/create-checkout-session', async (req, res) => {
   
-  return res.json({error: false, data: req.body});
-
-  const domainURL = process.env.DOMAIN;
-
   const date = new Date();
   date.setMonth(10);
   const expired = getExpireDateFromDate(date);
@@ -91,7 +87,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
     expireDate: expired,
     nonce: Math.floor(Math.random() * 10000).toString(),
   };
-
 
   const session = await arifpay.checkout.create(data, {
     sandbox: true
