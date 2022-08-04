@@ -69,7 +69,10 @@ app.post('/create-checkout-session', async (req, res) => {
     }, ],
   };
 
-
+  return res.json({
+    data: data,
+    key: arifpay.apiKey
+  });
   const session = await arifpay.checkout.create(data, {
     sandbox: true
   });
