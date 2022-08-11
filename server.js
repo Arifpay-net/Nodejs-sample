@@ -82,13 +82,15 @@ app.post('/api/create-checkout-session', async (req, res) => {
     const date = new Date();
     date.setMonth(10);
     const expired = getExpireDateFromDate(date);
+    let amount = req.body.items.map(e => e.price * e.quantity).reduce((e, c) => e + c)
+    console.log(amount);
     const data = {
       ...req.body,
       notifyUrl: `${domainURL}/webhook`,
       beneficiaries: [{
         accountNumber: '10000000000',
         bank: 'AWINETAA',
-        amount: 1500,
+        amount: amount
       }, ],
       paymentMethods: ["CARD"],
       expireDate: expired,
