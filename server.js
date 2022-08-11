@@ -52,7 +52,7 @@ app.post('/create-checkout-session', async (req, res) => {
     beneficiaries: [{
       accountNumber: 'account number',
       bank: 'AWINETAA',
-      amount: 10,
+      amount: 1500.0,
     }, ],
     cancelUrl: `${domainURL}/canceled.html`,
     errorUrl: `${domainURL}/error.html`,
@@ -86,7 +86,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
       ...req.body,
       notifyUrl: `${domainURL}/webhook`,
       beneficiaries: [{
-        accountNumber: 'account number',
+        accountNumber: '10000000000',
         bank: 'AWINETAA',
         amount: 1500,
       }, ],
