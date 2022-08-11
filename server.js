@@ -88,7 +88,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
       beneficiaries: [{
         accountNumber: 'account number',
         bank: 'AWINETAA',
-        amount: 10,
+        amount: 1500,
       }, ],
       paymentMethods: ["CARD"],
       expireDate: expired,
