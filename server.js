@@ -34,11 +34,20 @@ app.get('/', (req, res) => {
 });
 
 // Fetch the Checkout Session to display the JSON result on the success page
-app.get('/checkout-session', async (req, res) => {
+app.get('/checkout/session', async (req, res) => {
   const {
     sessionId
   } = req.query;
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  const session = await await arifpay.checkout.fetch(sessionId);
+  res.send(session);
+});
+
+// Fetch the Checkout Session to display the JSON result on the success page
+app.get('/checkout/session/cancel', async (req, res) => {
+  const {
+    sessionId
+  } = req.query;
+  const session = await await arifpay.checkout.cancel(sessionId);
   res.send(session);
 });
 
